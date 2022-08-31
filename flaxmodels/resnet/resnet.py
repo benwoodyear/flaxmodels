@@ -263,16 +263,16 @@ class ResNet(nn.Module):
             If this argument is None, the weights will be saved to a temp directory.
         dtype (str): Data type.
     """
-    output: str='softmax'
-    pretrained: str='imagenet'
-    normalize: bool=True
-    architecture: str='resnet18'
-    num_classes: int=1000
-    block: nn.Module=BasicBlock
-    kernel_init: functools.partial=nn.initializers.lecun_normal()
-    bias_init: functools.partial=nn.initializers.zeros
-    ckpt_dir: str=None
-    dtype: str='float32'
+    output: str = 'softmax'
+    pretrained: str = 'imagenet'
+    normalize: bool = True
+    architecture: str = 'resnet18'
+    num_classes: int = 1000
+    block: nn.Module = BasicBlock
+    kernel_init: functools.partial = nn.initializers.lecun_normal()
+    bias_init: functools.partial = nn.initializers.zeros
+    ckpt_dir: str = None
+    dtype: str = 'float32'
 
     def setup(self):
         self.param_dict = None
@@ -281,11 +281,12 @@ class ResNet(nn.Module):
             self.param_dict = h5py.File(ckpt_file, 'r')
 
     @nn.compact
-    def __call__(self, x, train=True):
+    def __call__(self, x, train=True, mask=None):
         """
         Args:
             x (tensor): Input tensor of shape [N, H, W, 3]. Images must be in range [0, 1].
             train (bool): Training mode.
+            mask (tensor): Input tensor of same shape as the final layer input
 
         Returns:
             (tensor): Out
@@ -371,6 +372,10 @@ class ResNet(nn.Module):
 
         # Classifier
         x = jnp.mean(x, axis=(1, 2))
+
+        if mask is not None:
+            x = mask * x
+
         x = nn.Dense(features=num_classes,
                      kernel_init=self.kernel_init if self.param_dict is None else lambda *_ : jnp.array(self.param_dict['fc']['weight']), 
                      bias_init=self.bias_init if self.param_dict is None else lambda *_ : jnp.array(self.param_dict['fc']['bias']),
