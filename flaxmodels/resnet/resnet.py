@@ -382,7 +382,8 @@ class ResNet(nn.Module):
                      kernel_init=self.kernel_init if self.param_dict is None else lambda *_ : jnp.array(self.param_dict['fc']['weight']), 
                      bias_init=self.bias_init if self.param_dict is None else lambda *_ : jnp.array(self.param_dict['fc']['bias']),
                      dtype=self.dtype,
-                     name=linear_layer_name)(x)
+                     # name=linear_layer_name)(x)
+                     )(x)
         act['fc'] = x
         
         if self.output == 'softmax':
