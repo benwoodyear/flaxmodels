@@ -7,6 +7,8 @@ import warnings
 from . import ops
 from .. import utils
 
+linear_layer_name = 'DENSE'
+
 
 URLS = {'resnet18': 'https://www.dropbox.com/s/wx3vt76s5gpdcw5/resnet18_weights.h5?dl=1',
         'resnet34': 'https://www.dropbox.com/s/rnqn2x6trnztg4c/resnet34_weights.h5?dl=1',
@@ -164,12 +166,12 @@ class Bottleneck(nn.Module):
                     use_bias=False,
                     dtype=self.dtype)(x)
 
-        x = ops.batch_norm(x,
-                           train=train,
-                           epsilon=1e-05,
-                           momentum=0.1,
-                           params=None if self.param_dict is None else self.param_dict['bn1'],
-                           dtype=self.dtype) 
+        # x = ops.batch_norm(x,
+        #                    train=train,
+        #                    epsilon=1e-05,
+        #                    momentum=0.1,
+        #                    params=None if self.param_dict is None else self.param_dict['bn1'],
+        #                    dtype=self.dtype)
         x = nn.relu(x)
 
         x = nn.Conv(features=self.features, 
@@ -180,12 +182,12 @@ class Bottleneck(nn.Module):
                     use_bias=False,
                     dtype=self.dtype)(x)
         
-        x = ops.batch_norm(x,
-                           train=train,
-                           epsilon=1e-05,
-                           momentum=0.1,
-                           params=None if self.param_dict is None else self.param_dict['bn2'],
-                           dtype=self.dtype) 
+        # x = ops.batch_norm(x,
+        #                    train=train,
+        #                    epsilon=1e-05,
+        #                    momentum=0.1,
+        #                    params=None if self.param_dict is None else self.param_dict['bn2'],
+        #                    dtype=self.dtype)
         x = nn.relu(x)
 
         x = nn.Conv(features=self.features * self.expansion, 
@@ -195,12 +197,12 @@ class Bottleneck(nn.Module):
                     use_bias=False,
                     dtype=self.dtype)(x)
 
-        x = ops.batch_norm(x,
-                           train=train,
-                           epsilon=1e-05,
-                           momentum=0.1,
-                           params=None if self.param_dict is None else self.param_dict['bn3'],
-                           dtype=self.dtype) 
+        # x = ops.batch_norm(x,
+        #                    train=train,
+        #                    epsilon=1e-05,
+        #                    momentum=0.1,
+        #                    params=None if self.param_dict is None else self.param_dict['bn3'],
+        #                    dtype=self.dtype)
 
         if self.downsample:
             residual = nn.Conv(features=self.features * self.expansion, 
