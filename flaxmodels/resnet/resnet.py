@@ -381,7 +381,8 @@ class ResNet(nn.Module):
         x = nn.Dense(features=num_classes,
                      kernel_init=self.kernel_init if self.param_dict is None else lambda *_ : jnp.array(self.param_dict['fc']['weight']), 
                      bias_init=self.bias_init if self.param_dict is None else lambda *_ : jnp.array(self.param_dict['fc']['bias']),
-                     dtype=self.dtype)(x)
+                     dtype=self.dtype,
+                     name=linear_layer_name)(x)
         act['fc'] = x
         
         if self.output == 'softmax':
