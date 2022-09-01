@@ -72,12 +72,12 @@ class BasicBlock(nn.Module):
                     use_bias=False,
                     dtype=self.dtype)(x)
 
-        x = ops.batch_norm(x,
-                           train=train,
-                           epsilon=1e-05,
-                           momentum=0.1,
-                           params=None if self.param_dict is None else self.param_dict['bn1'],
-                           dtype=self.dtype) 
+        # x = ops.batch_norm(x,
+        #                    train=train,
+        #                    epsilon=1e-05,
+        #                    momentum=0.1,
+        #                    params=None if self.param_dict is None else self.param_dict['bn1'],
+        #                    dtype=self.dtype)
         x = nn.relu(x)
 
         x = nn.Conv(features=self.features, 
@@ -88,12 +88,12 @@ class BasicBlock(nn.Module):
                     use_bias=False,
                     dtype=self.dtype)(x)
 
-        x = ops.batch_norm(x,
-                           train=train,
-                           epsilon=1e-05,
-                           momentum=0.1,
-                           params=None if self.param_dict is None else self.param_dict['bn2'],
-                           dtype=self.dtype) 
+        # x = ops.batch_norm(x,
+        #                    train=train,
+        #                    epsilon=1e-05,
+        #                    momentum=0.1,
+        #                    params=None if self.param_dict is None else self.param_dict['bn2'],
+        #                    dtype=self.dtype)
 
         if self.downsample:
             residual = nn.Conv(features=self.features, 
@@ -103,12 +103,12 @@ class BasicBlock(nn.Module):
                                use_bias=False,
                                dtype=self.dtype)(residual)
 
-            residual = ops.batch_norm(residual,
-                                      train=train,
-                                      epsilon=1e-05,
-                                      momentum=0.1,
-                                      params=None if self.param_dict is None else self.param_dict['downsample']['bn'],
-                                      dtype=self.dtype) 
+            # residual = ops.batch_norm(residual,
+            #                           train=train,
+            #                           epsilon=1e-05,
+            #                           momentum=0.1,
+            #                           params=None if self.param_dict is None else self.param_dict['downsample']['bn'],
+            #                           dtype=self.dtype)
         
         x += residual
         x = nn.relu(x)
@@ -212,12 +212,12 @@ class Bottleneck(nn.Module):
                                use_bias=False,
                                dtype=self.dtype)(residual)
 
-            residual = ops.batch_norm(residual,
-                                      train=train,
-                                      epsilon=1e-05,
-                                      momentum=0.1,
-                                      params=None if self.param_dict is None else self.param_dict['downsample']['bn'],
-                                      dtype=self.dtype) 
+            # residual = ops.batch_norm(residual,
+            #                           train=train,
+            #                           epsilon=1e-05,
+            #                           momentum=0.1,
+            #                           params=None if self.param_dict is None else self.param_dict['downsample']['bn'],
+            #                           dtype=self.dtype)
         
         x += residual
         x = nn.relu(x)
