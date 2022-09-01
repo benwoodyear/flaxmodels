@@ -321,12 +321,12 @@ class ResNet(nn.Module):
                     dtype=self.dtype)(x)
         act['conv1'] = x
 
-        x = ops.batch_norm(x,
-                           train=train,
-                           epsilon=1e-05,
-                           momentum=0.1,
-                           params=None if self.param_dict is None else self.param_dict['bn1'],
-                           dtype=self.dtype)
+        # x = ops.batch_norm(x,
+        #                    train=train,
+        #                    epsilon=1e-05,
+        #                    momentum=0.1,
+        #                    params=None if self.param_dict is None else self.param_dict['bn1'],
+        #                    dtype=self.dtype)
         x = nn.relu(x)
         x = nn.max_pool(x, window_shape=(3, 3), strides=(2, 2), padding=((1, 1), (1, 1)))
 
