@@ -107,6 +107,9 @@ class BatchNorm(nn.Module):
         # see NOTE above on initialization behavior
         initializing = self.is_mutable_collection('params')
 
+        import ipdb
+        ipdb.set_trace()
+        
         ra_mean = self.variable('batch_stats', 'mean',
                                 self.mean_init,
                                 reduced_feature_shape)
